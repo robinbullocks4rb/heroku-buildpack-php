@@ -255,6 +255,12 @@ if [[ "${PHP_VERSION}" ]]; then
     fi
 fi
 
+
+
+
+
+
+
 status "Installing dependencies..."
 
 # check if we should use a composer.phar version bundled with the project
@@ -314,15 +320,25 @@ fi
 unset COMPOSER_GITHUB_OAUTH_TOKEN
 
 # install dependencies
+cd laravel
 composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction | indent
 
 composer show --installed heroku/heroku-buildpack-php &> /dev/null && error "Your composer.json requires 'heroku/heroku-buildpack-php'.
 This package may only be used as a dependency in 'require-dev'!"
 
-if cat laravel/composer.json | python -c 'import sys,json; sys.exit("compile" not in json.load(sys.stdin).get("scripts", {}));'; then
+if cat composer.json | python -c 'import sys,json; sys.exit("compile" not in json.load(sys.stdin).get("scripts", {}));'; then
     status "Running 'composer compile'..."
     composer run-script --no-dev --no-interaction compile | indent
 fi
+
+
+
+
+
+
+
+
+
 
 status "Preparing runtime environment..."
 
